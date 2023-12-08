@@ -1,2 +1,1 @@
-require("thecodecafe.remap")
-print("hello from thecodecafe")
+require("thecodecafe.remap"))

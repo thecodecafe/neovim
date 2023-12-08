@@ -1,2 +1,1 @@
 require("thecodecafe")
-print("hello")
