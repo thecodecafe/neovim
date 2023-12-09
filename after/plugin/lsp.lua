@@ -28,7 +28,8 @@ require('mason-lspconfig').setup({
     'gopls',
     'swift_mesonls',
     'html',
-    'cssls'
+    'cssls',
+    'marksman'
   },
   handlers = {
     lsp.default_setup,
