@@ -27,10 +27,6 @@ return require('packer').startup(function(use)
 		'VonHeikemen/lsp-zero.nvim',
 		branch = 'v3.x',
 		requires = {
-			--- Uncomment these if you want to manage LSP servers from neovim
-			-- {'williamboman/mason.nvim'},
-			-- {'williamboman/mason-lspconfig.nvim'},
-
 			-- LSP Support
 			{'neovim/nvim-lspconfig'},
 			-- Autocompletion
@@ -43,5 +39,15 @@ return require('packer').startup(function(use)
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
-	}
+	} 
+  use({
+    "folke/tokyonight.nvim",
+    as = "tokyonight"
+  })
+  use {
+    "smjonas/inc-rename.nvim",
+    config = function()
+      require("inc_rename").setup()
+    end,
+  }
 end)
