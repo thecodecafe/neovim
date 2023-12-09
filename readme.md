@@ -31,3 +31,8 @@ meets your needs.
 - [ ] Java
 - [ ] Swift
 - [ ] HTML
+
+## TODO
+- [ ] Custom Theme
+- [ ] Productivity shortcuts
+- [ ] Document shortcuts
