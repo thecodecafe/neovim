@@ -192,6 +192,11 @@ _G.packer_plugins = {
     path = "/Users/danielbarde/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
   },
+  ["vim-airline"] = {
+    loaded = true,
+    path = "/Users/danielbarde/.local/share/nvim/site/pack/packer/start/vim-airline",
+    url = "https://github.com/vim-airline/vim-airline"
+  },
   ["vim-fugitive"] = {
     loaded = true,
     path = "/Users/danielbarde/.local/share/nvim/site/pack/packer/start/vim-fugitive",
