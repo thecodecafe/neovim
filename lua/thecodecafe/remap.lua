@@ -15,3 +15,4 @@ vim.keymap.set("x", "<leader>p", "\"_dp")
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
+
