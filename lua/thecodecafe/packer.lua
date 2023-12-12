@@ -12,6 +12,12 @@ return require('packer').startup(function(use)
 		requires = { {'nvim-lua/plenary.nvim'} }
 	}
 
+  use({
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+    requires = "nvim-treesitter/nvim-treesitter",
+  })
+
 	use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
 	use('mbbill/undotree')
 	use('tpope/vim-fugitive')
@@ -31,7 +37,7 @@ return require('packer').startup(function(use)
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
-	} 
+	}
   use({
     "folke/tokyonight.nvim",
     as = "tokyonight"
@@ -41,5 +47,17 @@ return require('packer').startup(function(use)
     config = function()
       require("inc_rename").setup()
     end,
+  }
+  use {'stevearc/dressing.nvim'}
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      {'hrsh7th/cmp-buffer'}, -- source for text in buffer
+      {'hrsh7th/cmp-path'}, -- source for file system path
+      {'L3MON4D3/LuaSnip'}, -- snippet engine
+      {'saadparwaiz1/cmp_luasnip'}, -- for autocompletoin
+      {'rafamadriz/friendly-snippets'}, -- usefull snippets
+      {"onsails/lspkind.nvim"} -- vs-code like pictograms
+    }
   }
 end)
