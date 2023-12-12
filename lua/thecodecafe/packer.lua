@@ -60,4 +60,12 @@ return require('packer').startup(function(use)
       {"onsails/lspkind.nvim"} -- vs-code like pictograms
     }
   }
+  use {'vim-airline/vim-airline'}
+
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional
+    },
+  }
 end)
