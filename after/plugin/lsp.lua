@@ -1,29 +1,44 @@
 local lsp_zero = require('lsp-zero').preset({})
 
 local lspconfig = require('lspconfig')
-local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lsp_zero.on_attach(function(client, bufnr)
-  -- lsp.default_keymaps({buffer = bufnr})
+local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+local on_attach = function (client, bufnr)
+  lsp_zero.default_keymaps({buffer = bufnr})
 
   local opts = {buffer = bufnr, remap = false}
 
   local keymap = vim.keymap -- for conciseness
 
-  opts.desc = "Go to definition"
-  keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
-  opts.desc = "Show current symbol definition"
-  keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts)
-  opts.desc = "View workspace symbol"
-  keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts)
-  keymap.set('n', '<leader>vd', function() vim.lsp.buf.open_float() end, opts)
-  keymap.set('n', '[d', function() vim.lsp.buf.goto_next() end, opts)
-  keymap.set('n', ']d', function() vim.lsp.buf.goto_prev() end, opts)
-  keymap.set('n', '<leader>vca', function() vim.lsp.buf.code_action() end, opts)
-  keymap.set('n', '<leader>vrr', function() vim.lsp.buf.references() end, opts)
-  keymap.set('n', '<leader>vrn', function() vim.lsp.buf.rename() end, opts)
-  keymap.set('n', '<C-h>', function() vim.lsp.buf.signature_help() end, opts)
   -- set keybinds
+  opts.desc = "Go to definition"
+  keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts) -- go to definition
+
+  opts.desc = "Show current symbol definition"
+  keymap.set('n', 'K', function() vim.lsp.buf.hover() end, opts) -- show definition of currently hovered symbol
+
+  opts.desc = "View workspace symbol"
+  keymap.set('n', '<leader>vws', function() vim.lsp.buf.workspace_symbol() end, opts) -- view workspace symbol
+
+  opts.desc = 'Open float'
+  keymap.set('n', '<leader>vd', function() vim.lsp.buf.open_float() end, opts) -- not sure what this does yet 
+
+  opts.desc = 'Go to next definition'
+  keymap.set('n', '[d', function() vim.lsp.buf.goto_next() end, opts) -- go to next definition
+
+  opts.desc = 'Go to previous definition'
+  keymap.set('n', ']d', function() vim.lsp.buf.goto_prev() end, opts) -- got to previous definition
+
+  opts.desc = 'Code action'
+  keymap.set('n', '<leader>vca', function() vim.lsp.buf.code_action() end, opts) -- not sure what code action does 
+
+  opts.desc = 'Load references'
+  keymap.set('n', '<leader>vrr', function() vim.lsp.buf.references() end, opts) -- not sure what this does yet 
+
+  opts.desc = 'Get signature\'s help'
+  keymap.set('n', '<C-h>', function() vim.lsp.buf.signature_help() end, opts) -- load help window for signature
+
   opts.desc = "Show LSP references"
   keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
@@ -32,6 +47,7 @@ lsp_zero.on_attach(function(client, bufnr)
 
   opts.desc = "Show LSP definitions"
   keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+
   opts.desc = "Show LSP implementations"
   keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
@@ -61,16 +77,82 @@ lsp_zero.on_attach(function(client, bufnr)
 
   opts.desc = "Restart LSP"
   keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-end)
 
-lspconfig.tsserver.setup({capabilities = lsp_capabilities})
-lspconfig.rust_analyzer.setup({capabilities = lsp_capabilities})
-lspconfig.gopls.setup({capabilities = lsp_capabilities})
+end
+
+lsp_zero.on_attach(on_attach)
+
+-- used to enable autocompletion (assign to every lsp server config)
+local capabilities = cmp_nvim_lsp.default_capabilities()
+
+-- Change the Diagnostic symbols in the sign column (gutter)
+-- (not in youtube nvim video)
+local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
+-- configure html server
+lspconfig["html"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+-- configure typescript server with plugin
+lspconfig["tsserver"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+-- configure css server
+lspconfig["cssls"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+-- configure tailwindcss server
+lspconfig["gopls"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+-- configure markdown server
+lspconfig["marksman"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+-- configure emmet language server
+lspconfig["emmet_ls"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+})
+
+-- configure lua server (with special settings)
+lspconfig["lua_ls"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = { -- custom settings for lua
+    Lua = {
+      -- make the language server recognize "vim" global
+      diagnostics = {
+        globals = { "vim" },
+      },
+      workspace = {
+        -- make language server aware of runtime files
+        library = {
+          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+          [vim.fn.stdpath("config") .. "/lua"] = true,
+        },
+      },
+    },
+  },
+})
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  -- Replace the language servers listed here 
-  -- with the ones you want to install
   ensure_installed = {
     'tsserver',
     'eslint',
@@ -79,7 +161,8 @@ require('mason-lspconfig').setup({
     'swift_mesonls',
     'html',
     'cssls',
-    'marksman'
+    'marksman',
+    'emmet_ls'
   },
   handlers = {
     lsp_zero.default_setup,
