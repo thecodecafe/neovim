@@ -10,9 +10,22 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "nzzzv")
 
+vim.keymap.set('n', '<C-l>', ':TmuxNavigateRight<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-j>', ':TmuxNavigateDown<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-h>', ':TmuxNavigateLeft<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-k>', ':TmuxNavigateUp<CR>', { noremap = true, silent = true })
+
 vim.keymap.set("x", "<leader>p", "\"_dp")
 
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
 
+vim.keymap.set("n", "<C-q>", function ()
+  vim.cmd(":q")
+end)
+
+vim.keymap.set("n", "<C-s>", function ()
+  vim.cmd(":w")
+  vim.cmd(":so")
+end)
