@@ -69,4 +69,5 @@ return require('packer').startup(function(use)
     },
   }
   use {'christoomey/vim-tmux-navigator'}
+  use {'prettier/vim-prettier'}
 end)
