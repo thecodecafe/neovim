@@ -70,4 +70,5 @@ return require('packer').startup(function(use)
   }
   use {'christoomey/vim-tmux-navigator'}
   use {'prettier/vim-prettier'}
+  use {'nvimtools/none-ls.nvim'}
 end)
