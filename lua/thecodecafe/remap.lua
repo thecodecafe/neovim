@@ -22,11 +22,14 @@ vim.keymap.set("i", "<C-c>", "<Esc>")
 
 vim.keymap.set("n", "<leader>rn", ":IncRename ")
 
-vim.keymap.set("n", "<C-q>qq", function ()
+vim.keymap.set("n", "<leader>qq", function ()
   vim.cmd(":q")
 end)
 
-vim.keymap.set("n", "<C-s>", function ()
+vim.keymap.set("n", "<leader>ww", function ()
   vim.cmd(":w")
 end)
 
+vim.keymap.set("n", "<leader>wa", function ()
+  vim.cmd(":wa")
+end)

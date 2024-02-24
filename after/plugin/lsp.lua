@@ -37,7 +37,7 @@ local on_attach = function (client, bufnr)
   keymap.set('n', '<leader>vrr', function() vim.lsp.buf.references() end, opts) -- not sure what this does yet 
 
   opts.desc = 'Get signature\'s help'
-  keymap.set('n', '<C-h>', function() vim.lsp.buf.signature_help() end, opts) -- load help window for signature
+  keymap.set('n', '<C-i>', function() vim.lsp.buf.signature_help() end, opts) -- load help window for signature
 
   opts.desc = "Show LSP references"
   keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
